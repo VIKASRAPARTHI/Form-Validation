@@ -117,18 +117,63 @@ The app is already configured with:
 
 ### Troubleshooting
 
-**Build Fails:**
+**Can't see content after deployment:**
+
+1. **Check build output:**
+   ```bash
+   npm run build
+   # Verify dist/ folder is created with index.html
+   ```
+
+2. **Verify Vercel configuration:**
+   - Make sure `vercel.json` is in root directory
+   - Check build command is set to `npm run build`
+   - Verify output directory is set to `dist`
+
+3. **Check deployment logs:**
+   - Go to Vercel dashboard → Your project → Deployments
+   - Click on latest deployment to see build logs
+   - Look for any error messages
+
+4. **Force redeploy:**
+   ```bash
+   # Method 1: CLI
+   npx vercel --prod --force
+
+   # Method 2: Dashboard
+   # Go to Vercel dashboard → Deployments → Redeploy
+   ```
+
+5. **Check browser console:**
+   - Open browser dev tools (F12)
+   - Look for JavaScript errors in Console tab
+   - Check Network tab for failed requests
+
+**Common Issues & Solutions:**
+
+**Issue: Blank white page**
+- Solution: Check browser console for errors
+- Verify all assets are loading correctly
+- Ensure React Router is properly configured
+
+**Issue: 404 on page refresh**
+- Solution: Verify `vercel.json` rewrites configuration
+- Make sure all routes redirect to `/index.html`
+
+**Issue: Build fails**
 - Check Node.js version (use Node 18+)
-- Clear node_modules and reinstall: `rm -rf node_modules package-lock.json && npm install`
+- Clear cache: `rm -rf node_modules package-lock.json && npm install`
+- Verify all dependencies are installed
 
-**Routing Issues:**
-- The `vercel.json` file handles SPA routing
-- All routes redirect to `index.html`
+**Issue: Assets not loading**
+- Check if asset paths are correct in built files
+- Verify Vite base configuration
+- Ensure all files are in `dist` folder
 
-**Performance:**
-- Vite automatically optimizes the build
-- Assets are minified and compressed
-- Code splitting is enabled
+**Issue: Routing not working**
+- Verify React Router setup in `App.jsx`
+- Check `vercel.json` rewrites configuration
+- Test routing locally with `npm run preview`
 
 ### Post-Deployment Testing
 
